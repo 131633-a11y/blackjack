@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07110f" />
   <title>Neon Jack — Adaptive Blackjack</title>
-
   <style>
     :root {
       --bg: #07110f;
@@ -21,31 +21,22 @@
       --shadow: 0 24px 90px rgba(0, 0, 0, 0.35);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-width: 320px;
-      min-height: 100vh;
-      color: var(--text);
       background:
         radial-gradient(circle at 13% 8%, rgba(71, 145, 109, 0.15), transparent 26rem),
         radial-gradient(circle at 85% 15%, rgba(196, 255, 102, 0.08), transparent 24rem),
         var(--bg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
-        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
 
     .shell {
       width: min(1440px, calc(100% - 48px));
@@ -87,9 +78,7 @@
       letter-spacing: -0.05em;
     }
 
-    .brand-name span {
-      color: var(--lime);
-    }
+    .brand-name span { color: var(--lime); }
 
     nav {
       display: flex;
@@ -110,10 +99,9 @@
       font-weight: 700;
     }
 
-    .nav-item.active,
-    .nav-item:hover {
+    .nav-item.active, .nav-item:hover {
       color: var(--text);
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.08);
     }
 
     .profile {
@@ -168,8 +156,7 @@
       align-items: start;
     }
 
-    .game-panel,
-    .side-card {
+    .game-panel, .side-card {
       border: 1px solid var(--line);
       border-radius: 24px;
       background: var(--panel);
@@ -177,9 +164,7 @@
       backdrop-filter: blur(18px);
     }
 
-    .game-panel {
-      padding: 22px;
-    }
+    .game-panel { padding: 22px; }
 
     .panel-top {
       display: flex;
@@ -198,13 +183,7 @@
       text-transform: uppercase;
     }
 
-    h1,
-    h2,
-    h3,
-    p {
-      margin-top: 0;
-    }
-
+    h1, h2, h3, p { margin-top: 0; }
     h1 {
       margin-bottom: 0;
       font-size: clamp(24px, 3vw, 34px);
@@ -226,9 +205,7 @@
       height: 7px;
       border-radius: 50%;
       background: var(--mint);
-      box-shadow:
-        0 0 0 4px rgba(99, 230, 190, 0.11),
-        0 0 14px var(--mint);
+      box-shadow: 0 0 0 4px rgba(99, 230, 190, 0.11), 0 0 14px var(--mint);
     }
 
     .table {
@@ -242,16 +219,9 @@
       border: 1px solid rgba(153, 234, 187, 0.34);
       border-radius: 42px;
       background:
-        radial-gradient(
-          ellipse at center,
-          rgba(26, 102, 74, 0.82),
-          rgba(10, 54, 42, 0.96) 68%,
-          #083127
-        ),
+        radial-gradient(ellipse at center, rgba(26, 102, 74, 0.82), rgba(10, 54, 42, 0.96) 68%, #083127),
         #0b4435;
-      box-shadow:
-        inset 0 0 90px rgba(0, 0, 0, 0.24),
-        0 18px 50px rgba(0, 0, 0, 0.24);
+      box-shadow: inset 0 0 90px rgba(0,0,0,0.24), 0 18px 50px rgba(0,0,0,0.24);
     }
 
     .table::before {
@@ -268,24 +238,24 @@
       position: absolute;
       top: 26px;
       left: 50%;
+      transform: translateX(-50%);
       color: rgba(215, 255, 225, 0.22);
       font-size: 9px;
       font-weight: 800;
       letter-spacing: 0.18em;
-      transform: translateX(-50%);
     }
 
     .table-glow {
       position: absolute;
-      top: 40%;
-      left: 50%;
       width: 230px;
       height: 230px;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
       background: rgba(196, 255, 102, 0.04);
       filter: blur(12px);
       pointer-events: none;
-      transform: translate(-50%, -50%);
     }
 
     .seat {
@@ -311,10 +281,10 @@
     .seat-score {
       margin-left: auto;
       padding: 4px 9px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255,255,255,0.14);
       border-radius: 99px;
       color: var(--lime);
-      background: rgba(0, 0, 0, 0.14);
+      background: rgba(0,0,0,0.14);
       font-size: 12px;
       font-weight: 850;
     }
@@ -324,7 +294,7 @@
       height: 27px;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255,255,255,0.16);
       border-radius: 9px;
       background: rgba(7, 27, 21, 0.35);
       font-size: 14px;
@@ -350,36 +320,26 @@
       border-radius: 10px;
       color: #17231d;
       background: #f8f5e9;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
       font-size: 17px;
       font-weight: 850;
       transform: rotate(var(--rotate, 0deg));
       animation: deal 0.3s ease both;
     }
 
-    .card:first-child {
-      margin-left: 0;
-    }
-
-    .card.red {
-      color: #d75358;
-    }
-
-    .card .corner {
-      line-height: 1;
-    }
-
+    .card:first-child { margin-left: 0; }
+    .card.red { color: #d75358; }
+    .card .corner { line-height: 1; }
     .card .suit {
       align-self: center;
       margin-bottom: 2px;
       font-size: 28px;
       font-weight: 500;
     }
-
     .card .bottom {
       align-self: flex-end;
-      line-height: 1;
       transform: rotate(180deg);
+      line-height: 1;
     }
 
     .card.hidden {
@@ -388,54 +348,32 @@
       border-color: rgba(196, 255, 102, 0.28);
       color: var(--lime);
       background:
-        linear-gradient(
-          135deg,
-          transparent 45%,
-          rgba(196, 255, 102, 0.13) 46%,
-          transparent 48%
-        ),
-        linear-gradient(
-          45deg,
-          transparent 45%,
-          rgba(196, 255, 102, 0.13) 46%,
-          transparent 48%
-        ),
+        linear-gradient(135deg, transparent 45%, rgba(196,255,102,.13) 46%, transparent 48%),
+        linear-gradient(45deg, transparent 45%, rgba(196,255,102,.13) 46%, transparent 48%),
         #123f32;
       font-size: 24px;
     }
 
     .card.hidden::before {
       content: "✦";
+      display: grid;
       width: 34px;
       height: 34px;
-      display: grid;
       place-items: center;
-      border: 1px solid rgba(196, 255, 102, 0.35);
+      border: 1px solid rgba(196,255,102,.35);
       border-radius: 50%;
-      background: rgba(196, 255, 102, 0.08);
+      background: rgba(196,255,102,.08);
     }
 
     @keyframes deal {
-      from {
-        opacity: 0;
-        transform: translateY(-15px) rotate(var(--rotate, 0deg));
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0) rotate(var(--rotate, 0deg));
-      }
+      from { opacity: 0; transform: translateY(-15px) rotate(var(--rotate, 0deg)); }
+      to { opacity: 1; transform: translateY(0) rotate(var(--rotate, 0deg)); }
     }
 
     .table-divider {
       height: 1px;
       margin: 12px 0 18px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(208, 255, 220, 0.2),
-        transparent
-      );
+      background: linear-gradient(90deg, transparent, rgba(208,255,220,.2), transparent);
     }
 
     .table-message {
@@ -445,20 +383,18 @@
       left: 50%;
       max-width: 85%;
       padding: 12px 20px;
-      border: 1px solid rgba(196, 255, 102, 0.25);
+      border: 1px solid rgba(196,255,102,.25);
       border-radius: 99px;
       color: var(--lime);
-      background: rgba(3, 19, 14, 0.55);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      background: rgba(3, 19, 14, .55);
+      box-shadow: 0 8px 30px rgba(0,0,0,.12);
       font-size: 12px;
       font-weight: 800;
       text-align: center;
       transform: translate(-50%, -50%);
     }
 
-    .table-message:empty {
-      display: none;
-    }
+    .table-message:empty { display: none; }
 
     .bottom-bar {
       display: grid;
@@ -468,10 +404,7 @@
       margin-top: 17px;
     }
 
-    .bet-area {
-      justify-self: start;
-    }
-
+    .bet-area { justify-self: start; }
     .bet-label {
       display: flex;
       align-items: center;
@@ -480,7 +413,7 @@
       color: var(--muted);
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.13em;
+      letter-spacing: .13em;
       text-transform: uppercase;
     }
 
@@ -496,11 +429,10 @@
       gap: 6px;
     }
 
-    .bet-chip,
-    .step {
+    .bet-chip, .step {
       border: 1px solid var(--line);
       color: var(--text);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,.05);
     }
 
     .bet-chip {
@@ -511,28 +443,24 @@
       font-weight: 800;
     }
 
-    .bet-chip.active,
-    .bet-chip:hover {
-      border-color: rgba(196, 255, 102, 0.55);
+    .bet-chip.active, .bet-chip:hover {
+      border-color: rgba(196,255,102,.55);
       color: #162519;
       background: var(--lime);
     }
 
     .custom-bet {
       width: 70px;
-      padding: 8px;
+      padding: 8px 8px;
       border: 1px solid var(--line);
       border-radius: 9px;
       outline: none;
       color: var(--text);
-      background: rgba(0, 0, 0, 0.18);
+      background: rgba(0,0,0,.18);
       font-size: 11px;
       font-weight: 800;
     }
-
-    .custom-bet:focus {
-      border-color: var(--lime);
-    }
+    .custom-bet:focus { border-color: var(--lime); }
 
     .main-action {
       min-width: 185px;
@@ -541,22 +469,14 @@
       border-radius: 13px;
       color: #182316;
       background: var(--lime);
-      box-shadow: 0 8px 25px rgba(196, 255, 102, 0.2);
+      box-shadow: 0 8px 25px rgba(196,255,102,.2);
       font-size: 13px;
       font-weight: 900;
-      transition: 0.2s ease;
+      transition: .2s ease;
     }
 
-    .main-action:hover {
-      box-shadow: 0 12px 31px rgba(196, 255, 102, 0.29);
-      transform: translateY(-2px);
-    }
-
-    .main-action:disabled {
-      cursor: not-allowed;
-      opacity: 0.45;
-      transform: none;
-    }
+    .main-action:hover { transform: translateY(-2px); box-shadow: 0 12px 31px rgba(196,255,102,.29); }
+    .main-action:disabled { cursor: not-allowed; opacity: .45; transform: none; }
 
     .round-meta {
       justify-self: end;
@@ -565,19 +485,10 @@
       line-height: 1.65;
       text-align: right;
     }
+    .round-meta strong { color: var(--text); }
 
-    .round-meta strong {
-      color: var(--text);
-    }
-
-    .side-stack {
-      display: grid;
-      gap: 15px;
-    }
-
-    .side-card {
-      padding: 19px;
-    }
+    .side-stack { display: grid; gap: 15px; }
+    .side-card { padding: 19px; }
 
     .ai-heading {
       display: flex;
@@ -592,13 +503,12 @@
       height: 42px;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(99, 230, 190, 0.5);
+      border: 1px solid rgba(99,230,190,.5);
       border-radius: 14px;
       color: var(--mint);
-      background: rgba(99, 230, 190, 0.1);
+      background: rgba(99,230,190,.1);
       font-size: 19px;
     }
-
     .bot-avatar::after {
       content: "";
       position: absolute;
@@ -614,63 +524,47 @@
     h2 {
       margin: 0 0 3px;
       font-size: 17px;
-      letter-spacing: -0.04em;
+      letter-spacing: -.04em;
     }
-
-    .subtle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 11px;
-    }
+    .subtle { margin: 0; color: var(--muted); font-size: 11px; }
 
     .ai-pill {
       margin-left: auto;
       padding: 5px 8px;
-      border: 1px solid rgba(196, 255, 102, 0.24);
+      border: 1px solid rgba(196,255,102,.24);
       border-radius: 99px;
       color: var(--lime);
-      background: rgba(196, 255, 102, 0.07);
+      background: rgba(196,255,102,.07);
       font-size: 9px;
       font-weight: 850;
-      letter-spacing: 0.07em;
+      letter-spacing: .07em;
       text-transform: uppercase;
     }
 
     .ai-insight {
       padding: 13px;
-      border: 1px solid rgba(99, 230, 190, 0.15);
+      border: 1px solid rgba(99,230,190,.15);
       border-radius: 14px;
-      background: rgba(99, 230, 190, 0.06);
+      background: rgba(99,230,190,.06);
     }
-
-    .ai-insight p {
-      margin: 0;
-      color: #c9e8d8;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .ai-insight strong {
-      color: var(--mint);
-    }
+    .ai-insight p { margin: 0; color: #c9e8d8; font-size: 12px; line-height: 1.55; }
+    .ai-insight strong { color: var(--mint); }
 
     .meter {
       height: 6px;
       overflow: hidden;
       margin-top: 11px;
       border-radius: 99px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,.08);
     }
-
     .meter span {
       display: block;
       width: 72%;
       height: 100%;
       border-radius: inherit;
       background: linear-gradient(90deg, var(--mint), var(--lime));
-      transition: width 0.5s ease;
+      transition: width .5s ease;
     }
-
     .meter-label {
       display: flex;
       justify-content: space-between;
@@ -685,25 +579,14 @@
       gap: 8px;
       margin-top: 15px;
     }
-
     .stat {
       padding: 11px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.025);
+      background: rgba(255,255,255,.025);
     }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .stat-value {
-      margin-top: 4px;
-      font-size: 17px;
-      font-weight: 850;
-      letter-spacing: -0.04em;
-    }
+    .stat-label { color: var(--muted); font-size: 10px; }
+    .stat-value { margin-top: 4px; font-size: 17px; font-weight: 850; letter-spacing: -.04em; }
 
     .activity-title {
       display: flex;
@@ -711,16 +594,8 @@
       justify-content: space-between;
       margin-bottom: 13px;
     }
-
-    .activity-title h3 {
-      margin: 0;
-      font-size: 12px;
-    }
-
-    .activity-title span {
-      color: var(--muted);
-      font-size: 10px;
-    }
+    .activity-title h3 { margin: 0; font-size: 12px; }
+    .activity-title span { color: var(--muted); font-size: 10px; }
 
     .log {
       display: grid;
@@ -728,7 +603,6 @@
       max-height: 182px;
       overflow: hidden;
     }
-
     .log-row {
       display: flex;
       align-items: center;
@@ -736,12 +610,7 @@
       color: var(--muted);
       font-size: 11px;
     }
-
-    .log-row b {
-      color: var(--text);
-      font-weight: 750;
-    }
-
+    .log-row b { color: var(--text); font-weight: 750; }
     .log-icon {
       width: 24px;
       height: 24px;
@@ -749,15 +618,10 @@
       place-items: center;
       border-radius: 8px;
       color: var(--gold);
-      background: rgba(247, 203, 114, 0.1);
+      background: rgba(247,203,114,.1);
       font-size: 11px;
     }
-
-    .log-time {
-      margin-left: auto;
-      color: #668078;
-      font-size: 10px;
-    }
+    .log-time { margin-left: auto; color: #668078; font-size: 10px; }
 
     .rules {
       display: grid;
@@ -766,7 +630,6 @@
       padding: 0;
       list-style: none;
     }
-
     .rules li {
       display: flex;
       gap: 8px;
@@ -774,11 +637,7 @@
       font-size: 11px;
       line-height: 1.45;
     }
-
-    .rules li::before {
-      content: "✦";
-      color: var(--lime);
-    }
+    .rules li::before { content: "✦"; color: var(--lime); }
 
     .action-row {
       display: grid;
@@ -786,27 +645,17 @@
       gap: 8px;
       margin-top: 13px;
     }
-
     .game-action {
       padding: 11px 5px;
       border: 1px solid var(--line);
       border-radius: 10px;
       color: var(--text);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,.05);
       font-size: 11px;
       font-weight: 800;
     }
-
-    .game-action:hover:not(:disabled) {
-      border-color: rgba(196, 255, 102, 0.45);
-      background: rgba(196, 255, 102, 0.08);
-    }
-
-    .game-action:disabled {
-      cursor: not-allowed;
-      color: #60766e;
-      background: rgba(0, 0, 0, 0.09);
-    }
+    .game-action:hover:not(:disabled) { border-color: rgba(196,255,102,.45); background: rgba(196,255,102,.08); }
+    .game-action:disabled { cursor: not-allowed; color: #60766e; background: rgba(0,0,0,.09); }
 
     .footnote {
       margin: 18px 2px 0;
@@ -822,117 +671,44 @@
       bottom: 24px;
       max-width: min(340px, calc(100% - 48px));
       padding: 13px 17px;
-      border: 1px solid rgba(196, 255, 102, 0.35);
+      border: 1px solid rgba(196,255,102,.35);
       border-radius: 13px;
       color: var(--text);
       background: #122d25;
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 14px 35px rgba(0,0,0,.3);
       font-size: 12px;
       font-weight: 750;
       opacity: 0;
       pointer-events: none;
       transform: translateY(14px);
-      transition: 0.25s ease;
+      transition: .25s ease;
     }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 980px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .side-stack {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .side-card:last-child {
-        grid-column: span 2;
-      }
+      .layout { grid-template-columns: 1fr; }
+      .side-stack { grid-template-columns: repeat(2, 1fr); }
+      .side-card:last-child { grid-column: span 2; }
     }
-
     @media (max-width: 700px) {
-      .shell {
-        width: min(100% - 24px, 600px);
-        padding-top: 14px;
-      }
-
-      header {
-        flex-wrap: wrap;
-        margin-bottom: 17px;
-      }
-
-      nav {
-        order: 3;
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .nav-item {
-        flex: 1;
-        padding-inline: 7px;
-      }
-
-      .game-panel {
-        padding: 14px;
-        border-radius: 18px;
-      }
-
-      .table {
-        min-height: 485px;
-        padding: 42px 24px;
-        border-radius: 27px;
-      }
-
-      .table::before {
-        inset: 10px;
-        border-radius: 20px;
-      }
-
-      .card {
-        width: 53px;
-        height: 77px;
-        padding: 7px 6px;
-        font-size: 14px;
-      }
-
-      .card .suit {
-        font-size: 23px;
-      }
-
-      .bottom-bar {
-        grid-template-columns: 1fr;
-        align-items: center;
-      }
-
-      .bet-area,
-      .round-meta {
-        justify-self: center;
-      }
-
-      .round-meta {
-        text-align: center;
-      }
-
-      .main-action {
-        width: 100%;
-        grid-row: 2;
-      }
-
-      .side-stack {
-        grid-template-columns: 1fr;
-      }
-
-      .side-card:last-child {
-        grid-column: auto;
-      }
+      .shell { width: min(100% - 24px, 600px); padding-top: 14px; }
+      header { flex-wrap: wrap; margin-bottom: 17px; }
+      nav { order: 3; width: 100%; justify-content: space-between; }
+      .nav-item { flex: 1; padding-inline: 7px; }
+      .game-panel { padding: 14px; border-radius: 18px; }
+      .table { min-height: 485px; padding: 42px 24px; border-radius: 27px; }
+      .table::before { inset: 10px; border-radius: 20px; }
+      .card { width: 53px; height: 77px; padding: 7px 6px; font-size: 14px; }
+      .card .suit { font-size: 23px; }
+      .bottom-bar { grid-template-columns: 1fr; align-items: center; }
+      .bet-area, .round-meta { justify-self: center; }
+      .round-meta { text-align: center; }
+      .main-action { width: 100%; grid-row: 2; }
+      .side-stack { grid-template-columns: 1fr; }
+      .side-card:last-child { grid-column: auto; }
     }
   </style>
 </head>
-
 <body>
   <div class="shell">
     <header>
@@ -940,19 +716,13 @@
         <div class="brand-mark">♠</div>
         <div class="brand-name">neon<span>jack</span></div>
       </div>
-
       <nav aria-label="Main navigation">
-        <button class="nav-item active">Live table</button>
-        <button class="nav-item">How to play</button>
-        <button class="nav-item">Leaderboard</button>
+        <button type="button" class="nav-item active">Live table</button>
+        <button type="button" class="nav-item">How to play</button>
+        <button type="button" class="nav-item">Leaderboard</button>
       </nav>
-
       <div class="profile">
-        <div class="credits">
-          <span class="coin">N</span>
-          <span id="balance">300</span>
-          credits
-        </div>
+        <div class="credits"><span class="coin">N</span><span id="balance">300</span> credits</div>
         <div class="avatar">JD</div>
       </div>
     </header>
@@ -964,31 +734,22 @@
             <p class="eyebrow">Adaptive table · 6 deck shoe</p>
             <h1>Blackjack, with a little edge.</h1>
           </div>
-
-          <div class="live">
-            <span class="live-dot"></span>
-            TABLE OPEN
-          </div>
+          <div class="live"><span class="live-dot"></span> TABLE OPEN</div>
         </div>
 
         <div class="table" aria-live="polite">
           <div class="table-glow"></div>
-
           <div class="seat">
             <div class="seat-head">
               <div class="seat-icon">♛</div>
               <span class="seat-label">Dealer</span>
               <span class="seat-score" id="dealer-score">?</span>
             </div>
-
             <div class="cards" id="dealer-cards"></div>
           </div>
 
           <div class="table-divider"></div>
-
-          <div class="table-message" id="table-message">
-            Choose a bet, then deal in.
-          </div>
+          <div class="table-message" id="table-message">Choose a bet, then deal in.</div>
 
           <div class="seat">
             <div class="seat-head">
@@ -996,155 +757,82 @@
               <span class="seat-label">You · seat 01</span>
               <span class="seat-score" id="player-score">—</span>
             </div>
-
             <div class="cards" id="player-cards"></div>
           </div>
         </div>
 
         <div class="bottom-bar">
           <div class="bet-area">
-            <div class="bet-label">
-              Your bet
-              <strong>
-                <span class="coin">N</span>
-                <span id="bet-amount">25</span>
-              </strong>
-            </div>
-
+            <div class="bet-label">Your bet <strong><span class="coin">N</span> <span id="bet-amount">25</span></strong></div>
             <div class="bet-picker">
-              <button class="bet-chip" data-bet="10">10</button>
-              <button class="bet-chip active" data-bet="25">25</button>
-              <button class="bet-chip" data-bet="50">50</button>
-              <button class="bet-chip" data-bet="100">100</button>
-
-              <input
-                id="custom-bet"
-                class="custom-bet"
-                type="number"
-                min="1"
-                placeholder="Custom"
-                aria-label="Custom bet amount"
-              />
+              <button type="button" class="bet-chip" data-bet="10">10</button>
+              <button type="button" class="bet-chip active" data-bet="25">25</button>
+              <button type="button" class="bet-chip" data-bet="50">50</button>
+              <button type="button" class="bet-chip" data-bet="100">100</button>
+              <input id="custom-bet" class="custom-bet" type="number" min="1" placeholder="Custom" aria-label="Custom bet amount" />
             </div>
           </div>
-
-          <button class="main-action" id="deal-button">
-            Deal hand <span>→</span>
-          </button>
-
+          <button type="button" class="main-action" id="deal-button">Deal hand <span>→</span></button>
           <div class="round-meta">
-            <div>
-              Round <strong id="round-number">001</strong>
-            </div>
-            <div>
-              Blackjack pays <strong>3 : 2</strong>
-            </div>
+            <div>Round <strong id="round-number">001</strong></div>
+            <div>Blackjack pays <strong>3 : 2</strong></div>
           </div>
         </div>
 
         <div class="action-row">
-          <button class="game-action" id="hit-button" disabled>Hit</button>
-          <button class="game-action" id="stand-button" disabled>Stand</button>
-          <button class="game-action" id="double-button" disabled>Double</button>
-          <button class="game-action" id="reset-button">Reset</button>
+          <button type="button" class="game-action" id="hit-button" disabled>Hit</button>
+          <button type="button" class="game-action" id="stand-button" disabled>Stand</button>
+          <button type="button" class="game-action" id="double-button" disabled>Double</button>
+          <button type="button" class="game-action" id="reset-button">Reset</button>
         </div>
-
-        <p class="footnote">
-          Demo table · credits have no cash value · built for play, not payment
-        </p>
+        <p class="footnote">Demo table · credits have no cash value · built for play, not payment</p>
       </section>
 
       <aside class="side-stack">
         <section class="side-card">
           <div class="ai-heading">
             <div class="bot-avatar">◈</div>
-
             <div>
               <h2>Nova AI</h2>
               <p class="subtle">Adaptive opponent</p>
             </div>
-
             <div class="ai-pill">Online</div>
           </div>
-
           <div class="ai-insight">
-            <p id="ai-insight">
-              <strong>Nova is watching.</strong>
-              It will tune its risk level as your play develops.
-            </p>
-
-            <div class="meter">
-              <span id="ai-meter"></span>
-            </div>
-
-            <div class="meter-label">
-              <span>Conservative</span>
-              <span id="ai-style">Balanced</span>
-              <span>Bold</span>
-            </div>
+            <p id="ai-insight"><strong>Nova is watching.</strong> It will tune its risk level as your play develops.</p>
+            <div class="meter"><span id="ai-meter"></span></div>
+            <div class="meter-label"><span>Conservative</span><span id="ai-style">Balanced</span><span>Bold</span></div>
           </div>
-
           <div class="stat-grid">
-            <div class="stat">
-              <div class="stat-label">Nova win rate</div>
-              <div class="stat-value" id="ai-win-rate">54%</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Your streak</div>
-              <div class="stat-value" id="streak">—</div>
-            </div>
+            <div class="stat"><div class="stat-label">Nova win rate</div><div class="stat-value" id="ai-win-rate">54%</div></div>
+            <div class="stat"><div class="stat-label">Your streak</div><div class="stat-value" id="streak">—</div></div>
           </div>
         </section>
 
         <section class="side-card">
-          <div class="activity-title">
-            <h3>Adaptive activity</h3>
-            <span>this session</span>
-          </div>
-
+          <div class="activity-title"><h3>Adaptive activity</h3><span>this session</span></div>
           <div class="log" id="activity-log">
-            <div class="log-row">
-              <div class="log-icon">◌</div>
-              <span>
-                <b>Nova</b> is ready to learn your rhythm
-              </span>
-              <span class="log-time">now</span>
-            </div>
-
-            <div class="log-row">
-              <div class="log-icon">✦</div>
-              <span>Fresh shoe shuffled</span>
-              <span class="log-time">now</span>
-            </div>
+            <div class="log-row"><div class="log-icon">◌</div><span><b>Nova</b> is ready to learn your rhythm</span><span class="log-time">now</span></div>
+            <div class="log-row"><div class="log-icon">✦</div><span>Fresh shoe shuffled</span><span class="log-time">now</span></div>
           </div>
         </section>
 
         <section class="side-card">
-          <div class="activity-title">
-            <h3>Quick rules</h3>
-            <span>classic blackjack</span>
-          </div>
-
+          <div class="activity-title"><h3>Quick rules</h3><span>classic blackjack</span></div>
           <ul class="rules">
-            <li>
-              Get closer to 21 than the dealer without going over.
-            </li>
-            <li>
-              Face cards are worth 10. Aces count as 1 or 11.
-            </li>
-            <li>
-              Nova studies your wins, losses, and bet sizing.
-            </li>
+            <li>Get closer to 21 than the dealer without going over.</li>
+            <li>Face cards are worth 10. Aces count as 1 or 11.</li>
+            <li>Nova studies your wins, losses, and bet sizing.</li>
           </ul>
         </section>
       </aside>
     </main>
   </div>
-
   <div class="toast" id="toast"></div>
 
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    // Neon Jack is a client-side demo: all credits and game state live in this page.
     const state = {
       balance: 300,
       bet: 25,
@@ -1164,231 +852,74 @@
     };
 
     const $ = (id) => document.getElementById(id);
-
     const suits = [
       { symbol: "♠", color: "black" },
       { symbol: "♥", color: "red" },
       { symbol: "♦", color: "red" },
       { symbol: "♣", color: "black" }
     ];
-
     const ranks = [
-      ["A", 11],
-      ["2", 2],
-      ["3", 3],
-      ["4", 4],
-      ["5", 5],
-      ["6", 6],
-      ["7", 7],
-      ["8", 8],
-      ["9", 9],
-      ["10", 10],
-      ["J", 10],
-      ["Q", 10],
-      ["K", 10]
+      ["A", 11], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6],
+      ["7", 7], ["8", 8], ["9", 9], ["10", 10], ["J", 10], ["Q", 10], ["K", 10]
     ];
 
     function buildDeck() {
       state.deck = [];
-
       for (let shoe = 0; shoe < 2; shoe++) {
-        suits.forEach((suit) => {
-          ranks.forEach(([rank, value]) => {
-            state.deck.push({
-              suit: suit.symbol,
-              color: suit.color, **…**
-                              </div>
-
-  <div class="toast" id="toast"></div>
-
-  <script>
-    const state = {
-      balance: 300,
-      bet: 25,
-      round: 1,
-      deck: [],
-      player: [],
-      dealer: [],
-      inRound: false,
-      playerTurn: false,
-      doubled: false,
-      wins: 0,
-      losses: 0,
-      pushes: 0,
-      streak: 0,
-      aiWins: 0,
-      aiStyle: 52
-    };
-
-    const $ = (id) => document.getElementById(id);
-
-    const suits = [
-      { symbol: "♠", color: "black" },
-      { symbol: "♥", color: "red" },
-      { symbol: "♦", color: "red" },
-      { symbol: "♣", color: "black" }
-    ];
-
-    const ranks = [
-      ["A", 11],
-      ["2", 2],
-      ["3", 3],
-      ["4", 4],
-      ["5", 5],
-      ["6", 6],
-      ["7", 7],
-      ["8", 8],
-      ["9", 9],
-      ["10", 10],
-      ["J", 10],
-      ["Q", 10],
-      ["K", 10]
-    ];
-
-    function buildDeck() {
-      state.deck = [];
-
-      for (let shoe = 0; shoe < 2; shoe++) {
-        suits.forEach((suit) => {
-          ranks.forEach(([rank, value]) => {
-            state.deck.push({
-              suit: suit.symbol,
-              color: suit.color,
-              rank,
-              value
-            });
-          });
-        });
+        suits.forEach(suit => ranks.forEach(([rank, value]) => {
+          state.deck.push({ suit: suit.symbol, color: suit.color, rank, value });
+        }));
       }
-
       for (let i = state.deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-
-        [state.deck[i], state.deck[j]] = [
-          state.deck[j],
-          state.deck[i]
-        ];
+        [state.deck[i], state.deck[j]] = [state.deck[j], state.deck[i]];
       }
     }
 
     function draw() {
-      if (state.deck.length < 20) {
-        buildDeck();
-      }
-
+      if (state.deck.length < 20) buildDeck();
       return state.deck.pop();
     }
 
     function score(hand) {
       let total = hand.reduce((sum, card) => sum + card.value, 0);
-      let aces = hand.filter((card) => card.rank === "A").length;
-
-      while (total > 21 && aces > 0) {
-        total -= 10;
-        aces--;
-      }
-
-      return {
-        total,
-        soft: aces > 0
-      };
+      let aces = hand.filter(card => card.rank === "A").length;
+      while (total > 21 && aces > 0) { total -= 10; aces--; }
+      return { total, soft: aces > 0 };
     }
 
     function scoreLabel(hand, hidden = false) {
-      if (hidden) {
-        return "?";
-      }
-
+      if (hidden) return "?";
       const result = score(hand);
-
-      if (result.total > 21) {
-        return `${result.total} · bust`;
-      }
-
-      return result.total;
+      return result.total > 21 ? `${result.total} · bust` : result.total;
     }
 
     function renderCard(card, hidden = false, index = 0) {
-      if (hidden) {
-        return `
-          <div
-            class="card hidden"
-            style="--rotate: 0deg"
-            aria-label="Hidden card"
-          ></div>
-        `;
-      }
-
+      if (hidden) return '<div class="card hidden" style="--rotate: 0deg" aria-label="Hidden card"></div>';
       const rotate = index % 2 ? 2 : -2;
-
-      return `
-        <div
-          class="card ${card.color === "red" ? "red" : ""}"
-          style="--rotate: ${rotate}deg"
-        >
-          <span class="corner">${card.rank}${card.suit}</span>
-          <span class="suit">${card.suit}</span>
-          <span class="bottom">${card.rank}${card.suit}</span>
-        </div>
-      `;
+      return `<div class="card ${card.color === "red" ? "red" : ""}" style="--rotate:${rotate}deg">
+        <span class="corner">${card.rank}${card.suit}</span>
+        <span class="suit">${card.suit}</span>
+        <span class="bottom">${card.rank}${card.suit}</span>
+      </div>`;
     }
 
     function render() {
       $("balance").textContent = state.balance;
       $("bet-amount").textContent = state.bet;
       $("round-number").textContent = String(state.round).padStart(3, "0");
-
-      $("player-cards").innerHTML = state.player
-        .map((card, index) => renderCard(card, false, index))
-        .join("");
-
-      $("dealer-cards").innerHTML = state.dealer
-        .map((card, index) => {
-          const isHidden = state.inRound && index === 1;
-          return renderCard(card, isHidden, index);
-        })
-        .join("");
-
-      $("player-score").textContent = state.player.length
-        ? scoreLabel(state.player)
-        : "—";
-
-      $("dealer-score").textContent = state.dealer.length
-        ? scoreLabel(state.dealer, state.inRound)
-        : "?";
-
+      $("player-cards").innerHTML = state.player.map((card, i) => renderCard(card, false, i)).join("");
+      $("dealer-cards").innerHTML = state.dealer.map((card, i) => renderCard(card, state.inRound && i === 1, i)).join("");
+      $("player-score").textContent = state.player.length ? scoreLabel(state.player) : "—";
+      $("dealer-score").textContent = state.dealer.length ? scoreLabel(state.dealer, state.inRound) : "?";
       $("hit-button").disabled = !state.playerTurn;
       $("stand-button").disabled = !state.playerTurn;
-
-      $("double-button").disabled =
-        !state.playerTurn ||
-        state.player.length !== 2 ||
-        state.balance < state.bet;
-
+      $("double-button").disabled = !state.playerTurn || state.player.length !== 2 || state.balance < state.bet;
       $("deal-button").disabled = state.inRound;
-
-      $("streak").textContent = state.streak
-        ? `${state.streak > 0 ? "+" : ""}${state.streak}`
-        : "—";
-
-      $("ai-meter").style.width = `${Math.max(
-        15,
-        Math.min(92, state.aiStyle)
-      )}%`;
-
-      $("ai-style").textContent =
-        state.aiStyle > 64
-          ? "Bold"
-          : state.aiStyle < 39
-          ? "Cautious"
-          : "Balanced";
-
-      document.querySelectorAll(".bet-chip").forEach((button) => {
-        button.classList.toggle(
-          "active",
-          Number(button.dataset.bet) === state.bet
-        );
-      });
+      $("streak").textContent = state.streak ? `${state.streak > 0 ? "+" : ""}${state.streak}` : "—";
+      $("ai-meter").style.width = `${Math.max(15, Math.min(92, state.aiStyle))}%`;
+      $("ai-style").textContent = state.aiStyle > 64 ? "Bold" : state.aiStyle < 39 ? "Cautious" : "Balanced";
+      document.querySelectorAll(".bet-chip").forEach(button => button.classList.toggle("active", Number(button.dataset.bet) === state.bet));
     }
 
     function setMessage(message) {
@@ -1396,105 +927,56 @@
     }
 
     let toastTimer;
-
     function toast(message) {
-      const element = $("toast");
-
-      element.textContent = message;
-      element.classList.add("show");
-
+      const el = $("toast");
+      el.textContent = message;
+      el.classList.add("show");
       clearTimeout(toastTimer);
-
-      toastTimer = setTimeout(() => {
-        element.classList.remove("show");
-      }, 2600);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
     }
 
     function addLog(icon, html) {
       const row = document.createElement("div");
-
       row.className = "log-row";
-      row.innerHTML = `
-        <div class="log-icon">${icon}</div>
-        <span>${html}</span>
-        <span class="log-time">now</span>
-      `;
-
+      row.innerHTML = `<div class="log-icon">${icon}</div><span>${html}</span><span class="log-time">now</span>`;
       $("activity-log").prepend(row);
-
-      while ($("activity-log").children.length > 4) {
-        $("activity-log").lastElementChild.remove();
-      }
+      while ($("activity-log").children.length > 4) $("activity-log").lastElementChild.remove();
     }
 
     function setBet(amount) {
       amount = Math.floor(Number(amount));
-
-      if (!Number.isFinite(amount) || amount < 1) {
-        return;
-      }
-
-      state.bet = Math.min(
-        amount,
-        Math.max(1, state.balance)
-      );
-
+      if (!Number.isFinite(amount) || amount < 1) return;
+      state.bet = Math.min(amount, Math.max(1, state.balance));
       $("custom-bet").value = "";
-
       render();
     }
 
     function startRound() {
-      if (state.inRound) {
-        return;
-      }
-
+      if (state.inRound) return;
       if (state.balance < state.bet) {
         toast("That bet is higher than your current bankroll.");
         return;
       }
-
       buildDeck();
-
       state.balance -= state.bet;
       state.player = [draw(), draw()];
       state.dealer = [draw(), draw()];
       state.inRound = true;
       state.playerTurn = true;
       state.doubled = false;
-
       setMessage("Your move — read the table.");
-
-      addLog(
-        "♧",
-        `<b>You</b> joined with ${state.bet} credits`
-      );
-
-      $("ai-insight").innerHTML = `
-        <strong>Nova is reading your opening.</strong>
-        Your bet size and first decision will shape its next strategy.
-      `;
-
+      addLog("♧", `<b>You</b> joined with ${state.bet} credits`);
+      $("ai-insight").innerHTML = "<strong>Nova is reading your opening.</strong> Your bet size and first decision will shape its next strategy.";
       render();
-
       const playerScore = score(state.player);
-
-      if (playerScore.total === 21) {
-        finishRound("blackjack");
-      }
+      if (playerScore.total === 21) finishRound("blackjack");
     }
 
     function hit() {
-      if (!state.playerTurn) {
-        return;
-      }
-
+      if (!state.playerTurn) return;
       state.player.push(draw());
-
       const current = score(state.player);
-
       render();
-
       if (current.total > 21) {
         finishRound("bust");
       } else if (current.total === 21) {
@@ -1505,75 +987,43 @@
     }
 
     function stand() {
-      if (!state.playerTurn) {
-        return;
-      }
-
+      if (!state.playerTurn) return;
       state.playerTurn = false;
-
-      setMessage("Dealer is revealing...");
+      setMessage("Dealer is revealing…");
       render();
-
       setTimeout(dealerPlay, 500);
     }
 
     function doubleDown() {
-      if (
-        !state.playerTurn ||
-        state.player.length !== 2 ||
-        state.balance < state.bet
-      ) {
-        return;
-      }
-
+      if (!state.playerTurn || state.player.length !== 2 || state.balance < state.bet) return;
       state.balance -= state.bet;
       state.bet *= 2;
       state.doubled = true;
-
       hit();
     }
 
     function dealerPlay() {
-      while (
-        score(state.dealer).total < 17 ||
-        (
-          score(state.dealer).total === 17 &&
-          score(state.dealer).soft
-        )
-      ) {
+      while (score(state.dealer).total < 17 || (score(state.dealer).total === 17 && score(state.dealer).soft)) {
         state.dealer.push(draw());
       }
-
       render();
-
-      setTimeout(() => {
-        finishRound("compare");
-      }, 350);
+      setTimeout(() => finishRound("compare"), 350);
     }
 
     function finishRound(reason) {
       state.playerTurn = false;
       state.inRound = false;
-
       const playerScore = score(state.player);
       const dealerScore = score(state.dealer);
-
       let result = "push";
       let payout = 0;
 
-      if (
-        reason === "blackjack" &&
-        playerScore.total === 21 &&
-        state.player.length === 2
-      ) {
+      if (reason === "blackjack" && playerScore.total === 21 && state.player.length === 2) {
         result = "blackjack";
         payout = Math.floor(state.bet * 2.5);
       } else if (playerScore.total > 21) {
         result = "loss";
-      } else if (
-        dealerScore.total > 21 ||
-        playerScore.total > dealerScore.total
-      ) {
+      } else if (dealerScore.total > 21 || playerScore.total > dealerScore.total) {
         result = "win";
         payout = state.bet * 2;
       } else if (playerScore.total < dealerScore.total) {
@@ -1581,85 +1031,37 @@
       }
 
       state.balance += payout;
-
       if (result === "win" || result === "blackjack") {
         state.wins++;
-
-        state.streak =
-          state.streak >= 0
-            ? state.streak + 1
-            : 1;
-
+        state.streak = state.streak >= 0 ? state.streak + 1 : 1;
         state.aiStyle = Math.min(90, state.aiStyle + 5);
-
-        setMessage(
-          result === "blackjack"
-            ? "Blackjack! Nova is recalibrating."
-            : "You win the hand."
-        );
-
-        toast(
-          result === "blackjack"
-            ? `Blackjack payout: +${payout} credits`
-            : `Nice hand. You won ${payout - state.bet} credits.`
-        );
-
-        addLog("↗", "<b>You</b> outplayed the table");
-
-        $("ai-insight").innerHTML = `
-          <strong>Nova is stepping up.</strong>
-          Your recent win nudged its risk model toward a bolder response.
-        `;
+        setMessage(result === "blackjack" ? "Blackjack! Nova is recalibrating." : "You win the hand.");
+        toast(result === "blackjack" ? `Blackjack payout: +${payout} credits` : `Nice hand. You won ${payout - state.bet} credits.`);
+        addLog("↗", `<b>You</b> outplayed the table`);
+        $("ai-insight").innerHTML = "<strong>Nova is stepping up.</strong> Your recent win nudged its risk model toward a bolder response.";
       } else if (result === "push") {
         state.pushes++;
         state.balance += state.bet;
         state.streak = 0;
-
         setMessage("Push — your bet comes back.");
         toast("Push. Your bet has been returned.");
-
         addLog("＝", "A <b>push</b> keeps the table even");
       } else {
         state.losses++;
-
-        state.streak =
-          state.streak <= 0
-            ? state.streak - 1
-            : -1;
-
+        state.streak = state.streak <= 0 ? state.streak - 1 : -1;
         state.aiStyle = Math.max(17, state.aiStyle - 6);
-
         setMessage("Dealer takes it. Rebuild your line.");
         toast(`Hand lost. ${state.balance} credits remain.`);
-
-        addLog("↘", "<b>Nova</b> found the stronger line");
-
-        $("ai-insight").innerHTML = `
-          <strong>Nova is tightening up.</strong>
-          It noticed the loss and is shifting toward a more patient,
-          conservative strategy.
-        `;
+        addLog("↘", `<b>Nova</b> found the stronger line`);
+        $("ai-insight").innerHTML = "<strong>Nova is tightening up.</strong> It noticed the loss and is shifting toward a more patient, conservative strategy.";
       }
 
       state.aiWins = Math.max(0, state.losses + 7);
-
-      const totalHands =
-        state.wins +
-        state.losses +
-        state.pushes;
-
-      $("ai-win-rate").textContent = `${Math.round(
-        (state.aiWins /
-          Math.max(1, totalHands + state.aiWins)) *
-          100
-      )}%`;
-
+      const totalHands = state.wins + state.losses + state.pushes;
+      $("ai-win-rate").textContent = `${Math.round((state.aiWins / Math.max(1, totalHands + state.aiWins)) * 100)}%`;
       state.round++;
-
-      if (state.balance > 0) {
-        state.bet = Math.min(state.bet, state.balance);
-      }
-
+      // Keep the next bet usable when a large previous bet exceeds the remaining balance.
+      if (state.balance > 0) state.bet = Math.min(state.bet, state.balance);
       render();
     }
 
@@ -1678,65 +1080,35 @@
       state.streak = 0;
       state.aiWins = 0;
       state.aiStyle = 52;
-
       $("activity-log").innerHTML = `
-        <div class="log-row">
-          <div class="log-icon">◌</div>
-          <span>
-            <b>Nova</b> is ready to learn your rhythm
-          </span>
-          <span class="log-time">now</span>
-        </div>
-
-        <div class="log-row">
-          <div class="log-icon">✦</div>
-          <span>Fresh shoe shuffled</span>
-          <span class="log-time">now</span>
-        </div>
-      `;
-
-      $("ai-insight").innerHTML = `
-        <strong>Nova is watching.</strong>
-        It will tune its risk level as your play develops.
-      `;
-
+        <div class="log-row"><div class="log-icon">◌</div><span><b>Nova</b> is ready to learn your rhythm</span><span class="log-time">now</span></div>
+        <div class="log-row"><div class="log-icon">✦</div><span>Fresh shoe shuffled</span><span class="log-time">now</span></div>`;
+      $("ai-insight").innerHTML = "<strong>Nova is watching.</strong> It will tune its risk level as your play develops.";
       setMessage("Choose a bet, then deal in.");
       toast("Bankroll reset to 300 credits.");
-
       render();
     }
 
-    document.querySelectorAll(".bet-chip").forEach((button) => {
-      button.addEventListener("click", () => {
-        setBet(button.dataset.bet);
-      });
-    });
-
-    $("custom-bet").addEventListener("change", (event) => {
-      setBet(event.target.value);
-    });
-
-    $("deal-button").addEventListener("click", startRound);
+    document.querySelectorAll(".bet-chip").forEach(button => button.addEventListener("click", () => setBet(button.dataset.bet)));
+    $("custom-bet").addEventListener("change", (event) => setBet(event.target.value));
     $("hit-button").addEventListener("click", hit);
     $("stand-button").addEventListener("click", stand);
     $("double-button").addEventListener("click", doubleDown);
     $("reset-button").addEventListener("click", resetGame);
+    document.querySelectorAll(".nav-item").forEach(item => item.addEventListener("click", () => {
+      document.querySelectorAll(".nav-item").forEach(navItem => navItem.classList.remove("active"));
+      item.classList.add("active");
+      if (item.textContent !== "Live table") toast(`${item.textContent} is a visual demo tab.`);
+    }));
 
-    document.querySelectorAll(".nav-item").forEach((item) => {
-      item.addEventListener("click", () => {
-        document.querySelectorAll(".nav-item").forEach((navItem) => {
-          navItem.classList.remove("active");
-        });
+    const dealButton = $("deal-button");
 
-        item.classList.add("active");
-
-        if (item.textContent !== "Live table") {
-          toast(`${item.textContent} is a visual demo tab.`);
-        }
-      });
-    });
+    if (dealButton) {
+      dealButton.addEventListener("click", startRound);
+    }
 
     render();
+    });
   </script>
 </body>
 </html>
