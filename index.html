@@ -1,312 +1,1742 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack vs AI Bot</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a4314;
-            color: white;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07110f" />
+  <title>Neon Jack — Adaptive Blackjack</title>
 
-        h1 {
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
+  <style>
+    :root {
+      --bg: #07110f;
+      --panel: rgba(15, 31, 27, 0.82);
+      --panel-strong: #10251f;
+      --line: rgba(174, 232, 202, 0.13);
+      --text: #edf8f0;
+      --muted: #91aaa0;
+      --lime: #c4ff66;
+      --mint: #63e6be;
+      --gold: #f7cb72;
+      --red: #ff7f7f;
+      --shadow: 0 24px 90px rgba(0, 0, 0, 0.35);
+    }
 
-        .game-container {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .play-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin: 20px 0;
-        }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 13% 8%, rgba(71, 145, 109, 0.15), transparent 26rem),
+        radial-gradient(circle at 85% 15%, rgba(196, 255, 102, 0.08), transparent 24rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-        .hand-section {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 5px solid #ffd700;
-        }
+    button,
+    input {
+      font: inherit;
+    }
 
-        .hand-section.ai-section {
-            border-left-color: #00bcd4;
-        }
+    button {
+      cursor: pointer;
+    }
 
-        .hand-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
+    .shell {
+      width: min(1440px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 22px 0 40px;
+    }
 
-        .cards-container {
-            display: flex;
-            gap: 10px;
-            min-height: 110px;
-            flex-wrap: wrap;
-        }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
 
-        .card {
-            width: 70px;
-            height: 105px;
-            background: white;
-            color: black;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 8px;
-            font-weight: bold;
-            box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-            position: relative;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: max-content;
+    }
 
-        .card.red { color: #d32f2f; }
-        .card.suit-top { align-self: flex-start; }
-        .card.suit-bottom { align-self: flex-end; transform: rotate(180deg); }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #112015;
+      background: var(--lime);
+      box-shadow: 0 0 24px rgba(196, 255, 102, 0.26);
+      font-size: 21px;
+      font-weight: 900;
+    }
 
-        .card.hidden {
-            background: linear-gradient(135deg, #7f1d1d 25%, #b91c1c 25%, #b91c1c 50%, #7f1d1d 50%, #7f1d1d 75%, #b91c1c 75%, #b91c1c 100%);
-            background-size: 20px 20px;
-            border: 2px solid white;
-        }
+    .brand-name {
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: -0.05em;
+    }
 
-        .controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+    .brand-name span {
+      color: var(--lime);
+    }
 
-        button {
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+    nav {
+      display: flex;
+      gap: 6px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(11, 26, 22, 0.63);
+    }
 
-        button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        button:active { transform: translateY(0); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .nav-item {
+      padding: 8px 15px;
+      border: 0;
+      border-radius: 9px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-        .btn-hit { background-color: #4caf50; color: white; }
-        .btn-stand { background-color: #f44336; color: white; }
-        .btn-deal { background-color: #2196f3; color: white; width: 100%; max-width: 200px; }
+    .nav-item.active,
+    .nav-item:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+    }
 
-        #status-msg {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            min-height: 36px;
-            margin: 15px 0;
-            color: #ffd700;
-        }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: max-content;
+    }
 
-        .log-box {
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            max-height: 100px;
-            overflow-y: auto;
-            margin-top: 15px;
-            color: #a7f3d0;
-        }
-    </style>
+    .credits {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(196, 255, 102, 0.18);
+      border-radius: 12px;
+      background: rgba(196, 255, 102, 0.07);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .coin {
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      border: 2px solid #1b311e;
+      border-radius: 50%;
+      color: #1b311e;
+      background: var(--gold);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--lime);
+      background: #18342a;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .game-panel,
+    .side-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .game-panel {
+      padding: 22px;
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -0.065em;
+      line-height: 1.05;
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--mint);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow:
+        0 0 0 4px rgba(99, 230, 190, 0.11),
+        0 0 14px var(--mint);
+    }
+
+    .table {
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 48px 7%;
+      border: 1px solid rgba(153, 234, 187, 0.34);
+      border-radius: 42px;
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(26, 102, 74, 0.82),
+          rgba(10, 54, 42, 0.96) 68%,
+          #083127
+        ),
+        #0b4435;
+      box-shadow:
+        inset 0 0 90px rgba(0, 0, 0, 0.24),
+        0 18px 50px rgba(0, 0, 0, 0.24);
+    }
+
+    .table::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(190, 255, 210, 0.18);
+      border-radius: 31px;
+      pointer-events: none;
+    }
+
+    .table::after {
+      content: "NEON JACK · TABLE 07";
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      color: rgba(215, 255, 225, 0.22);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      transform: translateX(-50%);
+    }
+
+    .table-glow {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: rgba(196, 255, 102, 0.04);
+      filter: blur(12px);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .seat {
+      position: relative;
+      z-index: 1;
+    }
+
+    .seat-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 13px;
+    }
+
+    .seat-label {
+      color: rgba(238, 255, 242, 0.78);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .seat-score {
+      margin-left: auto;
+      padding: 4px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 99px;
+      color: var(--lime);
+      background: rgba(0, 0, 0, 0.14);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .seat-icon {
+      width: 27px;
+      height: 27px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9px;
+      background: rgba(7, 27, 21, 0.35);
+      font-size: 14px;
+    }
+
+    .cards {
+      display: flex;
+      min-height: 102px;
+      align-items: center;
+      padding-left: 8px;
+    }
+
+    .card {
+      position: relative;
+      width: 67px;
+      height: 94px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 9px 8px 8px;
+      margin-left: -4px;
+      border: 1px solid rgba(15, 31, 27, 0.15);
+      border-radius: 10px;
+      color: #17231d;
+      background: #f8f5e9;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      font-size: 17px;
+      font-weight: 850;
+      transform: rotate(var(--rotate, 0deg));
+      animation: deal 0.3s ease both;
+    }
+
+    .card:first-child {
+      margin-left: 0;
+    }
+
+    .card.red {
+      color: #d75358;
+    }
+
+    .card .corner {
+      line-height: 1;
+    }
+
+    .card .suit {
+      align-self: center;
+      margin-bottom: 2px;
+      font-size: 28px;
+      font-weight: 500;
+    }
+
+    .card .bottom {
+      align-self: flex-end;
+      line-height: 1;
+      transform: rotate(180deg);
+    }
+
+    .card.hidden {
+      display: grid;
+      place-items: center;
+      border-color: rgba(196, 255, 102, 0.28);
+      color: var(--lime);
+      background:
+        linear-gradient(
+          135deg,
+          transparent 45%,
+          rgba(196, 255, 102, 0.13) 46%,
+          transparent 48%
+        ),
+        linear-gradient(
+          45deg,
+          transparent 45%,
+          rgba(196, 255, 102, 0.13) 46%,
+          transparent 48%
+        ),
+        #123f32;
+      font-size: 24px;
+    }
+
+    .card.hidden::before {
+      content: "✦";
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(196, 255, 102, 0.35);
+      border-radius: 50%;
+      background: rgba(196, 255, 102, 0.08);
+    }
+
+    @keyframes deal {
+      from {
+        opacity: 0;
+        transform: translateY(-15px) rotate(var(--rotate, 0deg));
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(var(--rotate, 0deg));
+      }
+    }
+
+    .table-divider {
+      height: 1px;
+      margin: 12px 0 18px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(208, 255, 220, 0.2),
+        transparent
+      );
+    }
+
+    .table-message {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      max-width: 85%;
+      padding: 12px 20px;
+      border: 1px solid rgba(196, 255, 102, 0.25);
+      border-radius: 99px;
+      color: var(--lime);
+      background: rgba(3, 19, 14, 0.55);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      transform: translate(-50%, -50%);
+    }
+
+    .table-message:empty {
+      display: none;
+    }
+
+    .bottom-bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 18px;
+      margin-top: 17px;
+    }
+
+    .bet-area {
+      justify-self: start;
+    }
+
+    .bet-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .bet-label strong {
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+
+    .bet-picker {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bet-chip,
+    .step {
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .bet-chip {
+      min-width: 41px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .bet-chip.active,
+    .bet-chip:hover {
+      border-color: rgba(196, 255, 102, 0.55);
+      color: #162519;
+      background: var(--lime);
+    }
+
+    .custom-bet {
+      width: 70px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      outline: none;
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.18);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .custom-bet:focus {
+      border-color: var(--lime);
+    }
+
+    .main-action {
+      min-width: 185px;
+      padding: 14px 28px;
+      border: 0;
+      border-radius: 13px;
+      color: #182316;
+      background: var(--lime);
+      box-shadow: 0 8px 25px rgba(196, 255, 102, 0.2);
+      font-size: 13px;
+      font-weight: 900;
+      transition: 0.2s ease;
+    }
+
+    .main-action:hover {
+      box-shadow: 0 12px 31px rgba(196, 255, 102, 0.29);
+      transform: translateY(-2px);
+    }
+
+    .main-action:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      transform: none;
+    }
+
+    .round-meta {
+      justify-self: end;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.65;
+      text-align: right;
+    }
+
+    .round-meta strong {
+      color: var(--text);
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 15px;
+    }
+
+    .side-card {
+      padding: 19px;
+    }
+
+    .ai-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .bot-avatar {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(99, 230, 190, 0.5);
+      border-radius: 14px;
+      color: var(--mint);
+      background: rgba(99, 230, 190, 0.1);
+      font-size: 19px;
+    }
+
+    .bot-avatar::after {
+      content: "";
+      position: absolute;
+      right: -3px;
+      bottom: -3px;
+      width: 9px;
+      height: 9px;
+      border: 2px solid var(--panel-strong);
+      border-radius: 50%;
+      background: var(--mint);
+    }
+
+    h2 {
+      margin: 0 0 3px;
+      font-size: 17px;
+      letter-spacing: -0.04em;
+    }
+
+    .subtle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .ai-pill {
+      margin-left: auto;
+      padding: 5px 8px;
+      border: 1px solid rgba(196, 255, 102, 0.24);
+      border-radius: 99px;
+      color: var(--lime);
+      background: rgba(196, 255, 102, 0.07);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .ai-insight {
+      padding: 13px;
+      border: 1px solid rgba(99, 230, 190, 0.15);
+      border-radius: 14px;
+      background: rgba(99, 230, 190, 0.06);
+    }
+
+    .ai-insight p {
+      margin: 0;
+      color: #c9e8d8;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .ai-insight strong {
+      color: var(--mint);
+    }
+
+    .meter {
+      height: 6px;
+      overflow: hidden;
+      margin-top: 11px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .meter span {
+      display: block;
+      width: 72%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--mint), var(--lime));
+      transition: width 0.5s ease;
+    }
+
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .stat {
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .stat-value {
+      margin-top: 4px;
+      font-size: 17px;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+    }
+
+    .activity-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 13px;
+    }
+
+    .activity-title h3 {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .activity-title span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .log {
+      display: grid;
+      gap: 11px;
+      max-height: 182px;
+      overflow: hidden;
+    }
+
+    .log-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .log-row b {
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .log-icon {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--gold);
+      background: rgba(247, 203, 114, 0.1);
+      font-size: 11px;
+    }
+
+    .log-time {
+      margin-left: auto;
+      color: #668078;
+      font-size: 10px;
+    }
+
+    .rules {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rules li {
+      display: flex;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .rules li::before {
+      content: "✦";
+      color: var(--lime);
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .game-action {
+      padding: 11px 5px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .game-action:hover:not(:disabled) {
+      border-color: rgba(196, 255, 102, 0.45);
+      background: rgba(196, 255, 102, 0.08);
+    }
+
+    .game-action:disabled {
+      cursor: not-allowed;
+      color: #60766e;
+      background: rgba(0, 0, 0, 0.09);
+    }
+
+    .footnote {
+      margin: 18px 2px 0;
+      color: #668078;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 24px;
+      bottom: 24px;
+      max-width: min(340px, calc(100% - 48px));
+      padding: 13px 17px;
+      border: 1px solid rgba(196, 255, 102, 0.35);
+      border-radius: 13px;
+      color: var(--text);
+      background: #122d25;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+      font-size: 12px;
+      font-weight: 750;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px);
+      transition: 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .side-stack {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .side-card:last-child {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .shell {
+        width: min(100% - 24px, 600px);
+        padding-top: 14px;
+      }
+
+      header {
+        flex-wrap: wrap;
+        margin-bottom: 17px;
+      }
+
+      nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .nav-item {
+        flex: 1;
+        padding-inline: 7px;
+      }
+
+      .game-panel {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .table {
+        min-height: 485px;
+        padding: 42px 24px;
+        border-radius: 27px;
+      }
+
+      .table::before {
+        inset: 10px;
+        border-radius: 20px;
+      }
+
+      .card {
+        width: 53px;
+        height: 77px;
+        padding: 7px 6px;
+        font-size: 14px;
+      }
+
+      .card .suit {
+        font-size: 23px;
+      }
+
+      .bottom-bar {
+        grid-template-columns: 1fr;
+        align-items: center;
+      }
+
+      .bet-area,
+      .round-meta {
+        justify-self: center;
+      }
+
+      .round-meta {
+        text-align: center;
+      }
+
+      .main-action {
+        width: 100%;
+        grid-row: 2;
+      }
+
+      .side-stack {
+        grid-template-columns: 1fr;
+      }
+
+      .side-card:last-child {
+        grid-column: auto;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <div class="brand-mark">♠</div>
+        <div class="brand-name">neon<span>jack</span></div>
+      </div>
 
-    <h1>🤖 AI Blackjack Arena</h1>
-    <p>You vs. AI Bot (Dealer acts on casino rules, AI Bot plays its own hand via basic strategy)</p>
+      <nav aria-label="Main navigation">
+        <button class="nav-item active">Live table</button>
+        <button class="nav-item">How to play</button>
+        <button class="nav-item">Leaderboard</button>
+      </nav>
 
-    <div class="game-container">
-        <div id="status-msg">Press Deal to Start!</div>
+      <div class="profile">
+        <div class="credits">
+          <span class="coin">N</span>
+          <span id="balance">300</span>
+          credits
+        </div>
+        <div class="avatar">JD</div>
+      </div>
+    </header>
 
-        <div class="play-area">
-            <!-- Dealer -->
-            <div class="hand-section">
-                <div class="hand-title">Dealer <span id="dealer-score">Score: 0</span></div>
-                <div id="dealer-cards" class="cards-container"></div>
-            </div>
+    <main class="layout">
+      <section class="game-panel">
+        <div class="panel-top">
+          <div>
+            <p class="eyebrow">Adaptive table · 6 deck shoe</p>
+            <h1>Blackjack, with a little edge.</h1>
+          </div>
 
-            <!-- AI Bot Partner/Opponent -->
-            <div class="hand-section ai-section">
-                <div class="hand-title">AI Bot (Jarvis) <span id="ai-score">Score: 0</span></div>
-                <div id="ai-cards" class="cards-container"></div>
-            </div>
-
-            <!-- Player -->
-            <div class="hand-section">
-                <div class="hand-title">You <span id="player-score">Score: 0</span></div>
-                <div id="player-cards" class="cards-container"></div>
-            </div>
+          <div class="live">
+            <span class="live-dot"></span>
+            TABLE OPEN
+          </div>
         </div>
 
-        <div class="controls">
-            <button id="btn-hit" class="btn-hit" disabled>Hit</button>
-            <button id="btn-stand" class="btn-stand" disabled>Stand</button>
+        <div class="table" aria-live="polite">
+          <div class="table-glow"></div>
+
+          <div class="seat">
+            <div class="seat-head">
+              <div class="seat-icon">♛</div>
+              <span class="seat-label">Dealer</span>
+              <span class="seat-score" id="dealer-score">?</span>
+            </div>
+
+            <div class="cards" id="dealer-cards"></div>
+          </div>
+
+          <div class="table-divider"></div>
+
+          <div class="table-message" id="table-message">
+            Choose a bet, then deal in.
+          </div>
+
+          <div class="seat">
+            <div class="seat-head">
+              <div class="seat-icon">✦</div>
+              <span class="seat-label">You · seat 01</span>
+              <span class="seat-score" id="player-score">—</span>
+            </div>
+
+            <div class="cards" id="player-cards"></div>
+          </div>
         </div>
-        <div class="controls">
-            <button id="btn-deal" class="btn-deal">Deal Hand</button>
+
+        <div class="bottom-bar">
+          <div class="bet-area">
+            <div class="bet-label">
+              Your bet
+              <strong>
+                <span class="coin">N</span>
+                <span id="bet-amount">25</span>
+              </strong>
+            </div>
+
+            <div class="bet-picker">
+              <button class="bet-chip" data-bet="10">10</button>
+              <button class="bet-chip active" data-bet="25">25</button>
+              <button class="bet-chip" data-bet="50">50</button>
+              <button class="bet-chip" data-bet="100">100</button>
+
+              <input
+                id="custom-bet"
+                class="custom-bet"
+                type="number"
+                min="1"
+                placeholder="Custom"
+                aria-label="Custom bet amount"
+              />
+            </div>
+          </div>
+
+          <button class="main-action" id="deal-button">
+            Deal hand <span>→</span>
+          </button>
+
+          <div class="round-meta">
+            <div>
+              Round <strong id="round-number">001</strong>
+            </div>
+            <div>
+              Blackjack pays <strong>3 : 2</strong>
+            </div>
+          </div>
         </div>
 
-        <div class="log-box" id="log-box">Game system initialised.</div>
-    </div>
+        <div class="action-row">
+          <button class="game-action" id="hit-button" disabled>Hit</button>
+          <button class="game-action" id="stand-button" disabled>Stand</button>
+          <button class="game-action" id="double-button" disabled>Double</button>
+          <button class="game-action" id="reset-button">Reset</button>
+        </div>
 
-    <script>
-        const suits = ['♠', '♥', '♦', '♣'];
-        const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-        
-        let deck = [];
-        let playerHand = [];
-        let aiHand = [];
-        let dealerHand = [];
-        let gameActive = false;
-        let playerTurn = false;
+        <p class="footnote">
+          Demo table · credits have no cash value · built for play, not payment
+        </p>
+      </section>
 
-        // DOM elements
-        const dCards = document.getElementById('dealer-cards');
-        const aCards = document.getElementById('ai-cards');
-        const pCards = document.getElementById('player-cards');
-        const dScore = document.getElementById('dealer-score');
-        const aScore = document.getElementById('ai-score');
-        const pScore = document.getElementById('player-score');
-        const statusMsg = document.getElementById('status-msg');
-        const logBox = document.getElementById('log-box');
-        
-        const btnHit = document.getElementById('btn-hit');
-        const btnStand = document.getElementById('btn-stand');
-        const btnDeal = document.getElementById('btn-deal');
+      <aside class="side-stack">
+        <section class="side-card">
+          <div class="ai-heading">
+            <div class="bot-avatar">◈</div>
 
-        function log(msg) {
-            logBox.innerHTML += `<br>> ${msg}`;
-            logBox.scrollTop = logBox.scrollHeight;
-        }
+            <div>
+              <h2>Nova AI</h2>
+              <p class="subtle">Adaptive opponent</p>
+            </div>
 
-        function createDeck() {
-            deck = [];
-            for (let suit of suits) {
-                for (let rank of ranks) {
-                    deck.push({ suit, rank, isRed: suit === '♥' || suit === '♦' });
-                }
-            }
-            for (let i = deck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [deck[i], deck[j]] = [deck[j], deck[i]];
-            }
-        }
+            <div class="ai-pill">Online</div>
+          </div>
 
-        function getHandValue(hand) {
-            let value = 0;
-            let aces = 0;
-            for (let card of hand) {
-                if (card.rank === 'A') {
-                    aces++;
-                    value += 11;
-                } else if (['J', 'Q', 'K'].includes(card.rank)) {
-                    value += 10;
-                } else {
-                    value += parseInt(card.rank);
-                }
-            }
-            while (value > 21 && aces > 0) {
-                value -= 10;
-                aces--;
-            }
-            return value;
-        }
+          <div class="ai-insight">
+            <p id="ai-insight">
+              <strong>Nova is watching.</strong>
+              It will tune its risk level as your play develops.
+            </p>
 
-        function renderCard(card, container, hide = false) {
-            const cardEl = document.createElement('div');
-            cardEl.className = `card ${card.isRed ? 'red' : ''} ${hide ? 'hidden' : ''}`;
-            if (!hide) {
-                cardEl.innerHTML = `<span class="suit-top">${card.rank}${card.suit}</span><span class="suit-bottom">${card.rank}${card.suit}</span>`;
-            }
-            container.appendChild(cardEl);
-        }
+            <div class="meter">
+              <span id="ai-meter"></span>
+            </div>
 
-        function updateUI(hideDealer = true) {
-            dCards.innerHTML = '';
-            aCards.innerHTML = '';
-            pCards.innerHTML = '';
+            <div class="meter-label">
+              <span>Conservative</span>
+              <span id="ai-style">Balanced</span>
+              <span>Bold</span>
+            </div>
+          </div>
 
-            dealerHand.forEach((card, index) => {
-                renderCard(card, dCards, hideDealer && index === 0);
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="stat-label">Nova win rate</div>
+              <div class="stat-value" id="ai-win-rate">54%</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Your streak</div>
+              <div class="stat-value" id="streak">—</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="side-card">
+          <div class="activity-title">
+            <h3>Adaptive activity</h3>
+            <span>this session</span>
+          </div>
+
+          <div class="log" id="activity-log">
+            <div class="log-row">
+              <div class="log-icon">◌</div>
+              <span>
+                <b>Nova</b> is ready to learn your rhythm
+              </span>
+              <span class="log-time">now</span>
+            </div>
+
+            <div class="log-row">
+              <div class="log-icon">✦</div>
+              <span>Fresh shoe shuffled</span>
+              <span class="log-time">now</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="side-card">
+          <div class="activity-title">
+            <h3>Quick rules</h3>
+            <span>classic blackjack</span>
+          </div>
+
+          <ul class="rules">
+            <li>
+              Get closer to 21 than the dealer without going over.
+            </li>
+            <li>
+              Face cards are worth 10. Aces count as 1 or 11.
+            </li>
+            <li>
+              Nova studies your wins, losses, and bet sizing.
+            </li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const state = {
+      balance: 300,
+      bet: 25,
+      round: 1,
+      deck: [],
+      player: [],
+      dealer: [],
+      inRound: false,
+      playerTurn: false,
+      doubled: false,
+      wins: 0,
+      losses: 0,
+      pushes: 0,
+      streak: 0,
+      aiWins: 0,
+      aiStyle: 52
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const suits = [
+      { symbol: "♠", color: "black" },
+      { symbol: "♥", color: "red" },
+      { symbol: "♦", color: "red" },
+      { symbol: "♣", color: "black" }
+    ];
+
+    const ranks = [
+      ["A", 11],
+      ["2", 2],
+      ["3", 3],
+      ["4", 4],
+      ["5", 5],
+      ["6", 6],
+      ["7", 7],
+      ["8", 8],
+      ["9", 9],
+      ["10", 10],
+      ["J", 10],
+      ["Q", 10],
+      ["K", 10]
+    ];
+
+    function buildDeck() {
+      state.deck = [];
+
+      for (let shoe = 0; shoe < 2; shoe++) {
+        suits.forEach((suit) => {
+          ranks.forEach(([rank, value]) => {
+            state.deck.push({
+              suit: suit.symbol,
+              color: suit.color, **…**
+                              </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const state = {
+      balance: 300,
+      bet: 25,
+      round: 1,
+      deck: [],
+      player: [],
+      dealer: [],
+      inRound: false,
+      playerTurn: false,
+      doubled: false,
+      wins: 0,
+      losses: 0,
+      pushes: 0,
+      streak: 0,
+      aiWins: 0,
+      aiStyle: 52
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const suits = [
+      { symbol: "♠", color: "black" },
+      { symbol: "♥", color: "red" },
+      { symbol: "♦", color: "red" },
+      { symbol: "♣", color: "black" }
+    ];
+
+    const ranks = [
+      ["A", 11],
+      ["2", 2],
+      ["3", 3],
+      ["4", 4],
+      ["5", 5],
+      ["6", 6],
+      ["7", 7],
+      ["8", 8],
+      ["9", 9],
+      ["10", 10],
+      ["J", 10],
+      ["Q", 10],
+      ["K", 10]
+    ];
+
+    function buildDeck() {
+      state.deck = [];
+
+      for (let shoe = 0; shoe < 2; shoe++) {
+        suits.forEach((suit) => {
+          ranks.forEach(([rank, value]) => {
+            state.deck.push({
+              suit: suit.symbol,
+              color: suit.color,
+              rank,
+              value
             });
-            dScore.textContent = hideDealer ? "Score: ?" : `Score: ${getHandValue(dealerHand)}`;
+          });
+        });
+      }
 
-            aiHand.forEach(card => renderCard(card, aCards));
-            aScore.textContent = `Score: ${getHandValue(aiHand)}`;
+      for (let i = state.deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
 
-            playerHand.forEach(card => renderCard(card, pCards));
-            pScore.textContent = `Score: ${getHandValue(playerHand)}`;
+        [state.deck[i], state.deck[j]] = [
+          state.deck[j],
+          state.deck[i]
+        ];
+      }
+    }
+
+    function draw() {
+      if (state.deck.length < 20) {
+        buildDeck();
+      }
+
+      return state.deck.pop();
+    }
+
+    function score(hand) {
+      let total = hand.reduce((sum, card) => sum + card.value, 0);
+      let aces = hand.filter((card) => card.rank === "A").length;
+
+      while (total > 21 && aces > 0) {
+        total -= 10;
+        aces--;
+      }
+
+      return {
+        total,
+        soft: aces > 0
+      };
+    }
+
+    function scoreLabel(hand, hidden = false) {
+      if (hidden) {
+        return "?";
+      }
+
+      const result = score(hand);
+
+      if (result.total > 21) {
+        return `${result.total} · bust`;
+      }
+
+      return result.total;
+    }
+
+    function renderCard(card, hidden = false, index = 0) {
+      if (hidden) {
+        return `
+          <div
+            class="card hidden"
+            style="--rotate: 0deg"
+            aria-label="Hidden card"
+          ></div>
+        `;
+      }
+
+      const rotate = index % 2 ? 2 : -2;
+
+      return `
+        <div
+          class="card ${card.color === "red" ? "red" : ""}"
+          style="--rotate: ${rotate}deg"
+        >
+          <span class="corner">${card.rank}${card.suit}</span>
+          <span class="suit">${card.suit}</span>
+          <span class="bottom">${card.rank}${card.suit}</span>
+        </div>
+      `;
+    }
+
+    function render() {
+      $("balance").textContent = state.balance;
+      $("bet-amount").textContent = state.bet;
+      $("round-number").textContent = String(state.round).padStart(3, "0");
+
+      $("player-cards").innerHTML = state.player
+        .map((card, index) => renderCard(card, false, index))
+        .join("");
+
+      $("dealer-cards").innerHTML = state.dealer
+        .map((card, index) => {
+          const isHidden = state.inRound && index === 1;
+          return renderCard(card, isHidden, index);
+        })
+        .join("");
+
+      $("player-score").textContent = state.player.length
+        ? scoreLabel(state.player)
+        : "—";
+
+      $("dealer-score").textContent = state.dealer.length
+        ? scoreLabel(state.dealer, state.inRound)
+        : "?";
+
+      $("hit-button").disabled = !state.playerTurn;
+      $("stand-button").disabled = !state.playerTurn;
+
+      $("double-button").disabled =
+        !state.playerTurn ||
+        state.player.length !== 2 ||
+        state.balance < state.bet;
+
+      $("deal-button").disabled = state.inRound;
+
+      $("streak").textContent = state.streak
+        ? `${state.streak > 0 ? "+" : ""}${state.streak}`
+        : "—";
+
+      $("ai-meter").style.width = `${Math.max(
+        15,
+        Math.min(92, state.aiStyle)
+      )}%`;
+
+      $("ai-style").textContent =
+        state.aiStyle > 64
+          ? "Bold"
+          : state.aiStyle < 39
+          ? "Cautious"
+          : "Balanced";
+
+      document.querySelectorAll(".bet-chip").forEach((button) => {
+        button.classList.toggle(
+          "active",
+          Number(button.dataset.bet) === state.bet
+        );
+      });
+    }
+
+    function setMessage(message) {
+      $("table-message").textContent = message;
+    }
+
+    let toastTimer;
+
+    function toast(message) {
+      const element = $("toast");
+
+      element.textContent = message;
+      element.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      toastTimer = setTimeout(() => {
+        element.classList.remove("show");
+      }, 2600);
+    }
+
+    function addLog(icon, html) {
+      const row = document.createElement("div");
+
+      row.className = "log-row";
+      row.innerHTML = `
+        <div class="log-icon">${icon}</div>
+        <span>${html}</span>
+        <span class="log-time">now</span>
+      `;
+
+      $("activity-log").prepend(row);
+
+      while ($("activity-log").children.length > 4) {
+        $("activity-log").lastElementChild.remove();
+      }
+    }
+
+    function setBet(amount) {
+      amount = Math.floor(Number(amount));
+
+      if (!Number.isFinite(amount) || amount < 1) {
+        return;
+      }
+
+      state.bet = Math.min(
+        amount,
+        Math.max(1, state.balance)
+      );
+
+      $("custom-bet").value = "";
+
+      render();
+    }
+
+    function startRound() {
+      if (state.inRound) {
+        return;
+      }
+
+      if (state.balance < state.bet) {
+        toast("That bet is higher than your current bankroll.");
+        return;
+      }
+
+      buildDeck();
+
+      state.balance -= state.bet;
+      state.player = [draw(), draw()];
+      state.dealer = [draw(), draw()];
+      state.inRound = true;
+      state.playerTurn = true;
+      state.doubled = false;
+
+      setMessage("Your move — read the table.");
+
+      addLog(
+        "♧",
+        `<b>You</b> joined with ${state.bet} credits`
+      );
+
+      $("ai-insight").innerHTML = `
+        <strong>Nova is reading your opening.</strong>
+        Your bet size and first decision will shape its next strategy.
+      `;
+
+      render();
+
+      const playerScore = score(state.player);
+
+      if (playerScore.total === 21) {
+        finishRound("blackjack");
+      }
+    }
+
+    function hit() {
+      if (!state.playerTurn) {
+        return;
+      }
+
+      state.player.push(draw());
+
+      const current = score(state.player);
+
+      render();
+
+      if (current.total > 21) {
+        finishRound("bust");
+      } else if (current.total === 21) {
+        stand();
+      } else {
+        setMessage("Another card, or lock it in?");
+      }
+    }
+
+    function stand() {
+      if (!state.playerTurn) {
+        return;
+      }
+
+      state.playerTurn = false;
+
+      setMessage("Dealer is revealing...");
+      render();
+
+      setTimeout(dealerPlay, 500);
+    }
+
+    function doubleDown() {
+      if (
+        !state.playerTurn ||
+        state.player.length !== 2 ||
+        state.balance < state.bet
+      ) {
+        return;
+      }
+
+      state.balance -= state.bet;
+      state.bet *= 2;
+      state.doubled = true;
+
+      hit();
+    }
+
+    function dealerPlay() {
+      while (
+        score(state.dealer).total < 17 ||
+        (
+          score(state.dealer).total === 17 &&
+          score(state.dealer).soft
+        )
+      ) {
+        state.dealer.push(draw());
+      }
+
+      render();
+
+      setTimeout(() => {
+        finishRound("compare");
+      }, 350);
+    }
+
+    function finishRound(reason) {
+      state.playerTurn = false;
+      state.inRound = false;
+
+      const playerScore = score(state.player);
+      const dealerScore = score(state.dealer);
+
+      let result = "push";
+      let payout = 0;
+
+      if (
+        reason === "blackjack" &&
+        playerScore.total === 21 &&
+        state.player.length === 2
+      ) {
+        result = "blackjack";
+        payout = Math.floor(state.bet * 2.5);
+      } else if (playerScore.total > 21) {
+        result = "loss";
+      } else if (
+        dealerScore.total > 21 ||
+        playerScore.total > dealerScore.total
+      ) {
+        result = "win";
+        payout = state.bet * 2;
+      } else if (playerScore.total < dealerScore.total) {
+        result = "loss";
+      }
+
+      state.balance += payout;
+
+      if (result === "win" || result === "blackjack") {
+        state.wins++;
+
+        state.streak =
+          state.streak >= 0
+            ? state.streak + 1
+            : 1;
+
+        state.aiStyle = Math.min(90, state.aiStyle + 5);
+
+        setMessage(
+          result === "blackjack"
+            ? "Blackjack! Nova is recalibrating."
+            : "You win the hand."
+        );
+
+        toast(
+          result === "blackjack"
+            ? `Blackjack payout: +${payout} credits`
+            : `Nice hand. You won ${payout - state.bet} credits.`
+        );
+
+        addLog("↗", "<b>You</b> outplayed the table");
+
+        $("ai-insight").innerHTML = `
+          <strong>Nova is stepping up.</strong>
+          Your recent win nudged its risk model toward a bolder response.
+        `;
+      } else if (result === "push") {
+        state.pushes++;
+        state.balance += state.bet;
+        state.streak = 0;
+
+        setMessage("Push — your bet comes back.");
+        toast("Push. Your bet has been returned.");
+
+        addLog("＝", "A <b>push</b> keeps the table even");
+      } else {
+        state.losses++;
+
+        state.streak =
+          state.streak <= 0
+            ? state.streak - 1
+            : -1;
+
+        state.aiStyle = Math.max(17, state.aiStyle - 6);
+
+        setMessage("Dealer takes it. Rebuild your line.");
+        toast(`Hand lost. ${state.balance} credits remain.`);
+
+        addLog("↘", "<b>Nova</b> found the stronger line");
+
+        $("ai-insight").innerHTML = `
+          <strong>Nova is tightening up.</strong>
+          It noticed the loss and is shifting toward a more patient,
+          conservative strategy.
+        `;
+      }
+
+      state.aiWins = Math.max(0, state.losses + 7);
+
+      const totalHands =
+        state.wins +
+        state.losses +
+        state.pushes;
+
+      $("ai-win-rate").textContent = `${Math.round(
+        (state.aiWins /
+          Math.max(1, totalHands + state.aiWins)) *
+          100
+      )}%`;
+
+      state.round++;
+
+      if (state.balance > 0) {
+        state.bet = Math.min(state.bet, state.balance);
+      }
+
+      render();
+    }
+
+    function resetGame() {
+      state.balance = 300;
+      state.bet = 25;
+      state.round = 1;
+      state.player = [];
+      state.dealer = [];
+      state.inRound = false;
+      state.playerTurn = false;
+      state.doubled = false;
+      state.wins = 0;
+      state.losses = 0;
+      state.pushes = 0;
+      state.streak = 0;
+      state.aiWins = 0;
+      state.aiStyle = 52;
+
+      $("activity-log").innerHTML = `
+        <div class="log-row">
+          <div class="log-icon">◌</div>
+          <span>
+            <b>Nova</b> is ready to learn your rhythm
+          </span>
+          <span class="log-time">now</span>
+        </div>
+
+        <div class="log-row">
+          <div class="log-icon">✦</div>
+          <span>Fresh shoe shuffled</span>
+          <span class="log-time">now</span>
+        </div>
+      `;
+
+      $("ai-insight").innerHTML = `
+        <strong>Nova is watching.</strong>
+        It will tune its risk level as your play develops.
+      `;
+
+      setMessage("Choose a bet, then deal in.");
+      toast("Bankroll reset to 300 credits.");
+
+      render();
+    }
+
+    document.querySelectorAll(".bet-chip").forEach((button) => {
+      button.addEventListener("click", () => {
+        setBet(button.dataset.bet);
+      });
+    });
+
+    $("custom-bet").addEventListener("change", (event) => {
+      setBet(event.target.value);
+    });
+
+    $("deal-button").addEventListener("click", startRound);
+    $("hit-button").addEventListener("click", hit);
+    $("stand-button").addEventListener("click", stand);
+    $("double-button").addEventListener("click", doubleDown);
+    $("reset-button").addEventListener("click", resetGame);
+
+    document.querySelectorAll(".nav-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        document.querySelectorAll(".nav-item").forEach((navItem) => {
+          navItem.classList.remove("active");
+        });
+
+        item.classList.add("active");
+
+        if (item.textContent !== "Live table") {
+          toast(`${item.textContent} is a visual demo tab.`);
         }
+      });
+    });
 
-        btnDeal.addEventListener('click', () => {
-            createDeck();
-            playerHand = [deck.pop(), deck.pop()];
-            aiHand = [deck.pop(), deck.pop()];
-            dealerHand = [deck.pop(), deck.pop()];
-            
-            gameActive = true;
-            playerTurn = true;
-            
-            logBox.innerHTML = "Game started.";
-            statusMsg.textContent = "Your Turn!";
-            
-            btnHit.disabled = false;
-            btnStand.disabled = false;
-            btnDeal.disabled = true;
-
-            updateUI(true);
-            if (getHandValue(playerHand) === 21) {
-                log("You got Blackjack!");
-                playerStand();
-            }
-        });
-
-        btnHit.addEventListener('click', () => {
-            if (!playerTurn) return;
-            playerHand.push(deck.pop());
-            updateUI(true);
-            
-            if (getHandValue(playerHand) > 21) {
-                log("You busted!");
-                playerStand();
-            }
-        });
-
-        btnStand.addEventListener('click', () => {
-            playerStand();
-        });
-
-        function playerStand() {
-            playerTurn = false;
-            btnHit.disabled = true;
-            btnStand.disabled = true;
-            runAILogic();
-        }
-
-        function runAILogic() {
-Use code with caution.statusMsg.textContent = "AI Bot is thinking...";setTimeout(() => {let aiValue = getHandValue(aiHand);// FIXED: correctly target the second card (visible card) in the dealer's hand arrayconst dealerVisibleCard = dealerHand[1];let dealerVisibleValue = ['J','Q','K'].includes(dealerVisibleCard.rank) ? 10 : (dealerVisibleCard.rank === 'A' ? 11 : parseInt(dealerVisibleCard.rank));log(AI evaluating score (${aiValue}) against Dealer visible card (${dealerVisibleCard.rank}));let wantsToHit = false;if (aiValue < 12) {wantsToHit = true;} else if (aiValue >= 12 && aiValue <= 16) {if (dealerVisibleValue >= 7) {wantsToHit = true;}}if (wantsToHit && aiValue <= 21) {aiHand.push(deck.pop());log(AI hits.);updateUI(true);if (getHandValue(aiHand) > 21) {log("AI Busted!");runDealerLogic();} else {runAILogic();}} else {log(AI stands on ${aiValue}.);runDealerLogic();}}, 1000);}function runDealerLogic() {statusMsg.textContent = "Dealer's turn...";updateUI(false);setTimeout(() => {if (getHandValue(dealerHand) < 17) {log("Dealer hits.");dealerHand.push(deck.pop());updateUI(false);runDealerLogic();} else {determineWinners();}}, 1000);}function determineWinners() {const pVal = getHandValue(playerHand);const aVal = getHandValue(aiHand);const dVal = getHandValue(dealerHand);let resultString = "";if (pVal > 21) resultString += "You Lost (Bust). \n";else if (dVal > 21 || pVal > dVal) resultString += "You Win! 🎉 \n";else if (pVal < dVal) resultString += "You Lost. \n";else resultString += "You Tied (Push). \n";if (aVal > 21) resultString += "AI Lost (Bust).";else if (dVal > 21 || aVal > dVal) resultString += "AI Won! 🤖";else if (aVal < dVal) resultString += "AI Lost.";else resultString += "AI Tied.";statusMsg.textContent = "Round Over!";log(End -> Dealer: ${dVal}, You: ${pVal}, AI: ${aVal});setTimeout(() => {alert(Game Over!\n\n${resultString});btnDeal.disabled = false;}, 300);}
+    render();
+  </script>
+</body>
+</html>
